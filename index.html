@@ -1,0 +1,456 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>代理配置转换工具</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://cdn.jsdelivr.net/npm/font-awesome@4.7.0/css/font-awesome.min.css" rel="stylesheet">
+  
+  <!-- 配置Tailwind自定义颜色和字体 -->
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            primary: '#165DFF',
+            secondary: '#36CFC9',
+            dark: '#1D2129',
+            light: '#F2F3F5',
+            neutral: '#86909C'
+          },
+          fontFamily: {
+            inter: ['Inter', 'system-ui', 'sans-serif'],
+            mono: ['Consolas', 'Monaco', 'monospace']
+          }
+        }
+      }
+    }
+  </script>
+  
+  <style type="text/tailwindcss">
+    @layer utilities {
+      .content-auto {
+        content-visibility: auto;
+      }
+      .text-shadow {
+        text-shadow: 0 2px 4px rgba(0,0,0,0.1);
+      }
+      .bg-gradient {
+        background: linear-gradient(135deg, #165DFF 0%, #36CFC9 100%);
+      }
+      .transition-all-300 {
+        transition: all 300ms ease-in-out;
+      }
+    }
+  </style>
+  
+  <style>
+    /* 确保页脚永远靠下 */
+    html, body {
+      height: 100%;
+    }
+    body {
+      display: flex;
+      flex-direction: column;
+    }
+    main {
+      flex: 1;
+    }
+  </style>
+</head>
+<body class="font-inter bg-gray-50 text-dark">
+  <!-- 页面标题 -->
+  <header class="bg-white shadow-sm py-6 px-4 md:px-8">
+    <div class="container mx-auto">
+      <h1 class="text-[clamp(1.5rem,3vw,2.5rem)] font-bold text-primary text-shadow">
+        <i class="fa fa-exchange mr-3"></i>代理配置转换工具
+      </h1>
+      <p class="text-neutral mt-2">智能识别公共前缀，自动优化输出结果</p>
+    </div>
+  </header>
+
+  <!-- 主内容区 -->
+  <main class="container mx-auto py-8 px-4 md:px-8">
+    <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+      
+      <!-- 左侧导入区域 -->
+      <section class="bg-white rounded-xl shadow-lg overflow-hidden transform hover:shadow-xl transition-all-300">
+        <div class="bg-primary text-white px-6 py-4 flex justify-between items-center">
+          <h2 class="text-xl font-semibold">
+            <i class="fa fa-upload mr-2"></i>导入配置
+          </h2>
+          <button id="clearLeftBtn" class="bg-white/20 text-white px-4 py-2 rounded-lg hover:bg-white/30 transition-all-300 flex items-center">
+            <i class="fa fa-trash mr-2"></i>清空
+          </button>
+        </div>
+        
+        <div class="p-6">
+          <div class="mb-4 text-sm text-neutral">
+            <i class="fa fa-info-circle mr-1"></i> 请粘贴完整的代理配置内容
+          </div>
+          <textarea id="leftInput" class="font-mono text-sm md:text-base bg-light rounded-lg p-4 w-full min-h-[500px] leading-relaxed max-h-[700px] overflow-y-auto border border-gray-200 focus:border-primary focus:ring-1 focus:ring-primary focus:outline-none resize-none transition-all-300">[[proxies]]
+localIP = "127.0.0.1"
+name = "NAS-201-html" 
+type = "http" 
+localPort = 880
+subdomain = "NAS-201-html" 
+
+[[proxies]]
+localIP = "127.0.0.1"
+name = "NAS-201-umami" 
+type = "http" 
+localPort = 3000
+subdomain = "NAS-201-umami" 
+
+[[proxies]]
+localIP = "127.0.0.1"
+name = "NAS-201-sun-panel" 
+type = "http" 
+localPort = 3002
+subdomain = "NAS-201-sun-panel" 
+
+[[proxies]]
+localIP = "127.0.0.1"
+name = "NAS-201-navidrome" 
+type = "http" 
+localPort = 4533
+subdomain = "NAS-201-navidrome" 
+
+[[proxies]]
+localIP = "127.0.0.1"
+name = "NAS-201-memos" 
+type = "http" 
+localPort = 5230
+subdomain = "NAS-201-memos" 
+
+[[proxies]]
+localIP = "127.0.0.1"
+name = "NAS-201-n8n" 
+type = "http" 
+localPort = 5678
+subdomain = "NAS-201-n8n" 
+
+[[proxies]]
+localIP = "127.0.0.1"
+name = "NAS-201-qinglong" 
+type = "http" 
+localPort = 5700
+subdomain = "NAS-201-qinglong" 
+
+[[proxies]]
+localIP = "127.0.0.1"
+name = "NAS-201-gogs" 
+type = "http" 
+localPort = 6080
+subdomain = "NAS-201-gogs" 
+
+[[proxies]]
+localIP = "127.0.0.1"
+name = "NAS-201-trilium" 
+type = "http" 
+localPort = 8080
+subdomain = "NAS-201-trilium" 
+
+[[proxies]]
+localIP = "127.0.0.1"
+name = "NAS-201-kodbox" 
+type = "http" 
+localPort = 8081
+subdomain = "NAS-201-kodbox" 
+
+[[proxies]]
+localIP = "127.0.0.1"
+name = "NAS-201-vaultwarden" 
+type = "http" 
+localPort = 40031
+subdomain = "NAS-201-vaultwarden" 
+
+[[proxies]]
+localIP = "127.0.0.1"
+name = "NAS-201-readeck" 
+type = "http" 
+localPort = 8792
+subdomain = "NAS-201-readeck" 
+
+[[proxies]]
+localIP = "127.0.0.1"
+name = "NAS-201-cloudbeaver" 
+type = "http" 
+localPort = 8978
+subdomain = "NAS-201-cloudbeaver" 
+
+[[proxies]]
+localIP = "127.0.0.1"
+name = "NAS-201-code-server" 
+type = "http" 
+localPort = 20080
+subdomain = "NAS-201-code-server"
+
+[[proxies]]
+localIP = "127.0.0.1"
+name = "NAS-201-halo" 
+type = "http" 
+localPort = 8090
+subdomain = "NAS-201-halo"
+
+
+[[proxies]]
+localIP = "127.0.0.1"
+name = "NAS-201-langbot" 
+type = "http" 
+localPort = 5300
+subdomain = "NAS-201-langbot"
+
+[[proxies]]
+localIP = "127.0.0.1"
+name = "NAS-201-doc" 
+type = "http" 
+localPort = 3000
+subdomain = "NAS-201-doc"
+
+
+[[proxies]]
+localIP = "127.0.0.1"
+name = "NAS-201-langbot-2285" 
+type = "tcp" 
+localPort = 2285
+subdomain = "NAS-201-langbot-2285" </textarea>
+          
+          <div class="mt-4 flex justify-center">
+            <button id="convertBtn" class="bg-primary hover:bg-primary/90 text-white px-6 py-3 rounded-lg transition-all-300 flex items-center font-medium">
+              <i class="fa fa-refresh mr-2"></i>转换配置
+            </button>
+          </div>
+        </div>
+      </section>
+      
+      <!-- 右侧输出区域 -->
+      <section class="bg-white rounded-xl shadow-lg overflow-hidden transform hover:shadow-xl transition-all-300">
+        <div class="bg-secondary text-white px-6 py-4 flex justify-between items-center">
+          <h2 class="text-xl font-semibold">
+            <i class="fa fa-download mr-2"></i>输出结果
+          </h2>
+          <div class="flex items-center space-x-2">
+            <span id="prefixInfo" class="text-sm bg-white/20 px-3 py-1 rounded-full hidden">
+              已去除公共前缀: <span id="detectedPrefix" class="font-semibold"></span>
+            </span>
+            <button id="copyRightBtn" class="bg-white text-secondary px-4 py-2 rounded-lg hover:bg-opacity-90 transition-all-300 flex items-center">
+              <i class="fa fa-copy mr-2"></i>复制结果
+            </button>
+          </div>
+        </div>
+        
+        <div class="p-6">
+          <div class="mb-4 text-sm text-neutral">
+            <i class="fa fa-info-circle mr-1"></i> 转换后的结果（已自动去除公共前缀）
+          </div>
+          <div id="rightOutput" class="font-mono text-sm md:text-base bg-light rounded-lg p-4 min-h-[500px] leading-relaxed max-h-[700px] overflow-y-auto whitespace-pre">html:880
+umami:3000
+sun-panel:3002
+navidrome:4533
+memos:5230
+n8n:5678
+qinglong:5700
+gogs:6080
+trilium:8080
+kodbox:8081
+vaultwarden:40031
+readeck:8792
+cloudbeaver:8978
+code-server:20080
+halo:8090
+langbot:5300
+doc:3000
+langbot-2285:2285</div>
+          
+          <div id="copyRightMessage" class="mt-4 text-center hidden">
+            <span class="inline-block bg-green-100 text-green-800 px-4 py-2 rounded-full text-sm">
+              <i class="fa fa-check-circle mr-2"></i>已成功复制到剪贴板
+            </span>
+          </div>
+        </div>
+      </section>
+    </div>
+    
+    <!-- 转换说明 -->
+    <section class="mt-12 bg-white rounded-xl shadow-lg p-6">
+      <h3 class="text-lg font-semibold text-primary mb-4">
+        <i class="fa fa-info-circle mr-2"></i>使用说明
+      </h3>
+      <div class="space-y-3 text-neutral">
+        <p><i class="fa fa-arrow-right text-secondary mr-2"></i>系统会自动识别所有名称中的公共前缀（如示例中的"NAS-201-"）</p>
+        <p><i class="fa fa-arrow-right text-secondary mr-2"></i>转换结果将自动去除公共前缀，仅保留差异化部分</p>
+        <p><i class="fa fa-arrow-right text-secondary mr-2"></i>右侧会显示检测到的公共前缀，方便确认</p>
+        <p><i class="fa fa-arrow-right text-secondary mr-2"></i>支持任意格式的公共前缀识别，不限于特定命名规则</p>
+        <p><i class="fa fa-arrow-right text-secondary mr-2"></i>点击"复制结果"按钮，可将优化后的内容复制到剪贴板</p>
+      </div>
+    </section>
+  </main>
+
+  <!-- 页脚 -->
+  <footer class="bg-dark text-white py-6 mt-auto">
+    <div class="container mx-auto px-4 md:px-8 text-center text-sm text-gray-400">
+      <p>AI 智能代理配置转换工具 影视后期老罗©2025.09.04</p>
+    </div>
+  </footer>
+
+  <!-- JavaScript -->
+  <script>
+    // 获取DOM元素
+    const leftInput = document.getElementById('leftInput');
+    const rightOutput = document.getElementById('rightOutput');
+    const convertBtn = document.getElementById('convertBtn');
+    const clearLeftBtn = document.getElementById('clearLeftBtn');
+    const copyRightBtn = document.getElementById('copyRightBtn');
+    const copyRightMessage = document.getElementById('copyRightMessage');
+    const prefixInfo = document.getElementById('prefixInfo');
+    const detectedPrefix = document.getElementById('detectedPrefix');
+    
+    // 找到字符串数组的最长公共前缀
+    function findLongestCommonPrefix(strs) {
+      if (strs.length === 0) return '';
+      
+      let prefix = strs[0];
+      
+      for (let i = 1; i < strs.length; i++) {
+        while (strs[i].indexOf(prefix) !== 0) {
+          prefix = prefix.substring(0, prefix.length - 1);
+          if (prefix === '') return '';
+        }
+      }
+      
+      // 确保前缀以分隔符结尾或为完整前缀
+      const separators = ['-', '_', '.', ' '];
+      if (prefix.length > 0 && !separators.some(sep => prefix.endsWith(sep))) {
+        // 找到最后一个分隔符位置
+        let lastSepIndex = -1;
+        separators.forEach(sep => {
+          const index = prefix.lastIndexOf(sep);
+          if (index > lastSepIndex) lastSepIndex = index;
+        });
+        
+        if (lastSepIndex !== -1) {
+          prefix = prefix.substring(0, lastSepIndex + 1);
+        } else {
+          // 如果没有分隔符，检查是否应该保留整个前缀
+          // 只有当所有字符串都完全相同时才保留，否则不使用前缀
+          const allSame = strs.every(str => str === strs[0]);
+          return allSame ? strs[0] : '';
+        }
+      }
+      
+      return prefix;
+    }
+    
+    // 转换配置函数
+    function convertConfig() {
+      const input = leftInput.value;
+      const proxies = input.split('[[proxies]]');
+      const names = [];
+      const ports = [];
+      
+      // 提取所有名称和端口
+      for (let i = 1; i < proxies.length; i++) {
+        const proxy = proxies[i];
+        let name = '';
+        let port = '';
+        
+        // 提取名称
+        const nameMatch = proxy.match(/name\s*=\s*"([^"]+)"/);
+        if (nameMatch && nameMatch[1]) {
+          name = nameMatch[1];
+          names.push(name);
+        }
+        
+        // 提取端口号
+        const portMatch = proxy.match(/localPort\s*=\s*(\d+)/);
+        if (portMatch && portMatch[1]) {
+          port = portMatch[1];
+        }
+        
+        ports.push(port);
+      }
+      
+      // 找到最长公共前缀
+      const commonPrefix = findLongestCommonPrefix(names);
+      
+      // 生成输出结果
+      let output = '';
+      for (let i = 0; i < names.length; i++) {
+        if (names[i] && ports[i]) {
+          // 去除公共前缀
+          const shortName = commonPrefix ? names[i].replace(commonPrefix, '') : names[i];
+          output += `${shortName}:${ports[i]}\n`;
+        }
+      }
+      
+      // 显示处理结果
+      rightOutput.textContent = output.trim();
+      
+      // 显示检测到的前缀信息
+      if (commonPrefix) {
+        detectedPrefix.textContent = commonPrefix;
+        prefixInfo.classList.remove('hidden');
+      } else {
+        prefixInfo.classList.add('hidden');
+      }
+      
+      // 添加转换成功的动画效果
+      convertBtn.classList.add('bg-green-600');
+      convertBtn.innerHTML = '<i class="fa fa-check mr-2"></i>转换完成';
+      
+      setTimeout(() => {
+        convertBtn.classList.remove('bg-green-600');
+        convertBtn.innerHTML = '<i class="fa fa-refresh mr-2"></i>转换配置';
+      }, 1500);
+    }
+    
+    // 复制右侧结果
+    function copyRightContent() {
+      const textarea = document.createElement('textarea');
+      textarea.value = rightOutput.textContent;
+      document.body.appendChild(textarea);
+      textarea.select();
+      document.execCommand('copy');
+      document.body.removeChild(textarea);
+      
+      // 显示复制成功消息
+      copyRightMessage.classList.remove('hidden');
+      
+      setTimeout(() => {
+        copyRightMessage.classList.add('hidden');
+      }, 3000);
+      
+      // 按钮动画效果
+      copyRightBtn.classList.add('bg-green-600', 'text-white');
+      copyRightBtn.innerHTML = '<i class="fa fa-check mr-2"></i>已复制';
+      
+      setTimeout(() => {
+        copyRightBtn.classList.remove('bg-green-600', 'text-white');
+        copyRightBtn.innerHTML = '<i class="fa fa-copy mr-2"></i>复制结果';
+      }, 1500);
+    }
+    
+    // 清空左侧输入
+    function clearLeftContent() {
+      leftInput.value = '';
+      rightOutput.textContent = '';
+      prefixInfo.classList.add('hidden');
+      leftInput.focus();
+    }
+    
+    // 绑定事件
+    convertBtn.addEventListener('click', convertConfig);
+    clearLeftBtn.addEventListener('click', clearLeftContent);
+    copyRightBtn.addEventListener('click', copyRightContent);
+    
+    // 初始转换
+    window.addEventListener('load', () => {
+      // 稍微延迟以确保页面加载完成
+      setTimeout(convertConfig, 500);
+    });
+  </script>
+</body>
+</html>
+    
